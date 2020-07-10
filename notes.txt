@@ -1,0 +1,36 @@
+Waiting for a user to reply:
+
+@client.event
+async def on_message(message):
+    if message.content.startswith('$greet'):
+        channel = message.channel
+        await channel.send('Say hello!')
+
+        def check(m):
+            return m.content == 'hello' and m.channel == channel
+
+        msg = await client.wait_for('message', check=check)
+        await channel.send('Hello {.author}!'.format(msg))
+
+-----------------------------------------------------------------------
+
+Reference Material for SQL readings:
+
+cursor.execute("SELECT * FROM userstories;")
+result = cursor.fetchone()
+cnx.commit()
+print(result[2])
+
+-------------------------------------------------------------------------
+
+Things to do:
+Put number of Nouns, Adjectives and Verbs in the footer of the embed object
+Shove values into the database properly
+Make sure the story has Nouns Verbs and Adjectives
+Add adverbs later when finished
+
+Create more commands:
+Last story created...
+List of stories...
+Modify the story...
+

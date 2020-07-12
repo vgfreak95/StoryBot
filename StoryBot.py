@@ -46,7 +46,7 @@ def generate_random_hex_color():
 STORY_DESCRIPTION = '''This command allows you to create a story with a name and a description. 
                        You need to have a changable word. ex: Noun, Adj, Verb'''
 
-STORY_HELP = "[Story Name] [Story Description]" 
+STORY_HELP = "Insert a story name and a story draft" 
 @client.command(aliases=['story'], description=STORY_DESCRIPTION, help=STORY_HELP)
 async def create_story(ctx, story_name, story_draft):
 
@@ -61,7 +61,6 @@ async def create_story(ctx, story_name, story_draft):
     embed_color = generate_random_hex_color()
 
     for x in (range(0, len(split_draft))):
-
 
         if (split_draft[x].__contains__("Noun")):
             can_create_embed = True
@@ -128,7 +127,7 @@ async def last_story(ctx):
 # -     ctx = context (aut defined by program)
 # -----------------------------------------------------
 
-@client.command(aliases=['list'])
+@client.command(aliases=['list'], description="Gets a list of stories from the database")
 async def list_stories(ctx):
 
     cursor.execute("SELECT * FROM createdstories;")
@@ -167,6 +166,8 @@ async def list_stories(ctx):
             embed.set_footer(text=f"{value} story in the list")
             await (ctx.send(embed=embed))
 
+
+
 # -----------------------------------------------------
 # - Purpose: Allows the user to modify the stories inserted into the database
 # - Parameters: 
@@ -174,7 +175,10 @@ async def list_stories(ctx):
 # -     story_name = the name of the story
 # -----------------------------------------------------
 
-@client.command(aliases=['modify'])
+MODIFY_HELP = "If your story isn't typed correctly, the story will not be found within the database"
+MODIFY_DESCRIPTION = "Allows the user to modify the story draft given via the story name"
+
+@client.command(aliases=['modify'], description=MODIFY_DESCRIPTION, help=MODIFY_HELP)
 async def modify_story(ctx, story_name):
 
         is_valid = False
@@ -235,7 +239,6 @@ async def modify_story(ctx, story_name):
                     try:
                         message = await client.wait_for('message', timeout=10.0, check=check)
                         input = '{.content}'.format(message)
-                        print(input)
                         
                     except asyncio.TimeoutError:
                         await ctx.send("You took too long...")
